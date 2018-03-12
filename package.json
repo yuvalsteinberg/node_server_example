@@ -1,0 +1,42 @@
+{
+  "name": "example-server-skeleton",
+  "version": "1.0.0",
+  "description": "Example Server Skeleton",
+  "main": "app/app.js",
+  "scripts": {
+    "start": "cd app; node app.js",
+    "unit-tests": "cd app; istanbul cover --include-all-sources   ../node_modules/.bin/_mocha ../tests/unit-tests/**/** -- --testType=unit-test",
+    "vulnerabilities-check": "nsp check"
+  },
+  "repository": {
+    "type": "git",
+    "serviceUrl": "git@url:project.git"
+  },
+  "author": "Yuval",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "bunyan": "^1.8.12",
+    "express": "^4.16.2",
+    "express-mung": "^0.4.6",
+    "express-validator": "^3.2.1",
+    "http-shutdown": "^1.2.0",
+    "http-status-codes": "^1.3.0",
+    "lodash": "^4.17.5",
+    "promise": "^8.0.1",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2",
+    "util": "^0.10.3",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.3",
+    "mochawesome": "^2.3.1",
+    "nsp": "^3.2.1",
+    "rewire": "^2.5.2",
+    "should": "^11.2.1",
+    "sinon": "^2.4.1"
+  }
+}
