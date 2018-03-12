@@ -3,7 +3,7 @@ const sinon = require("sinon"),
   rewire = require('rewire'),
   util = require("util"),
   uuid = require("uuid"),
-  httpStatusCodes = require('http-status-codes'),
+  HttpStatus = require('http-status-codes'),
   logger = require("../../../app/helpers/logger"),
   kafkaProducer = rewire("../../../app/connectors/kafka-producer");
 
@@ -85,7 +85,7 @@ describe("kafka-producer", () => {
 
         const expectedError = {
           type: "KAFKA_ERROR",
-          code: httpStatusCodes.INTERNAL_SERVER_ERROR,
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
           message: kafkaError.message,
         };
 

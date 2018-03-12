@@ -1,6 +1,6 @@
 const sinon = require("sinon"),
   should = require("should"),
-  httpStatusCodes = require('http-status-codes'),
+  HttpStatus = require('http-status-codes'),
   util = require("util"),
   uuid = require("uuid"),
   logger = require('../../../app/helpers/logger'),
@@ -18,44 +18,46 @@ describe("person", () => {
 
   const errorResponsesScenarios = [
     {
-      errorCode: httpStatusCodes.BAD_REQUEST,
+      errorCode: HttpStatus.BAD_REQUEST,
       errorMessage: uuid.v4(),
-      resultCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+      resultCode: HttpStatus.INTERNAL_SERVER_ERROR,
       resultMessage: "Unexpected error"
     },
     {
-      errorCode: httpStatusCodes.UNAUTHORIZED,
+      errorCode: HttpStatus.UNAUTHORIZED,
       errorMessage: uuid.v4(),
-      resultCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+      resultCode: HttpStatus.INTERNAL_SERVER_ERROR,
       resultMessage: "Unexpected error"
     },
     {
-      errorCode: httpStatusCodes.NOT_FOUND,
+      errorCode: HttpStatus.NOT_FOUND,
       errorMessage: uuid.v4(),
-      resultCode: httpStatusCodes.NOT_FOUND,
+      resultCode: HttpStatus.NOT_FOUND,
       resultMessage: "person not found"
     },
     {
-      errorCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+      errorCode: HttpStatus.INTERNAL_SERVER_ERROR,
       errorMessage: uuid.v4(),
-      resultCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+      resultCode: HttpStatus.INTERNAL_SERVER_ERROR,
       resultMessage: "Unexpected error"
     },
     {
-      errorCode: httpStatusCodes.BAD_GATEWAY,
+      errorCode: HttpStatus.BAD_GATEWAY,
       errorMessage: uuid.v4(),
-      resultCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+      resultCode: HttpStatus.INTERNAL_SERVER_ERROR,
       resultMessage: "Unexpected error"
     },
     {
       errorCode: undefined,
       errorMessage: undefined,
-      resultCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+      resultCode: HttpStatus.INTERNAL_SERVER_ERROR,
       resultMessage: "Unexpected error"
     },
   ];
 
   describe("getPerson", () => {
+    const GET_PERSON_PATH = "v1/persons/%s";
+
     describe("successful", () => {
       it("should return a person model object", () => {
         const personId = uuid.v4();
@@ -79,7 +81,7 @@ describe("person", () => {
 
         const expectedPersonConnectorsArgs = {
           method: "GET",
-          serviceUrl: util.format("persons/%s", personId),
+          serviceUrl: util.format(GET_PERSON_PATH, personId),
           headers: {
             requestId: requestId
           }
@@ -120,7 +122,7 @@ describe("person", () => {
 
           const expectedPersonConnectorsArgs = {
             method: "GET",
-            serviceUrl: util.format("persons/%s", personId),
+            serviceUrl: util.format(GET_PERSON_PATH, personId),
             headers: {
               requestId: requestId
             }
@@ -145,6 +147,8 @@ describe("person", () => {
   });
 
   describe("deletePerson", () => {
+    const DELETE_PERSON_PATH = "v2/persons/%s";
+
     describe("successful", () => {
       it("should return a person model object", () => {
         const personId = uuid.v4();
@@ -162,7 +166,7 @@ describe("person", () => {
 
         const expectedPersonConnectorsArgs = {
           method: "DELETE",
-          serviceUrl: util.format("persons/%s", personId),
+          serviceUrl: util.format(DELETE_PERSON_PATH, personId),
           headers: {
             requestId: requestId
           }
@@ -203,7 +207,7 @@ describe("person", () => {
 
           const expectedPersonConnectorsArgs = {
             method: "DELETE",
-            serviceUrl: util.format("persons/%s", personId),
+            serviceUrl: util.format(DELETE_PERSON_PATH, personId),
             headers: {
               requestId: requestId
             }

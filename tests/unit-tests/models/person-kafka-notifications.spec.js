@@ -1,6 +1,6 @@
 const sinon = require("sinon"),
   should = require("should"),
-  httpStatusCodes = require('http-status-codes'),
+  HttpStatus = require('http-status-codes'),
   util = require("util"),
   uuid = require("uuid"),
   logger = require('../../../app/helpers/logger'),
@@ -79,7 +79,7 @@ describe("person-kafka-notifications", () => {
 
         const expectedError = {
           type: "KAFKA_NOTIFICATION_DELETE_PERSON",
-          code: httpStatusCodes.INTERNAL_SERVER_ERROR,
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
           message: kafkaError.message
         };
 

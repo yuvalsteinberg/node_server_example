@@ -1,6 +1,6 @@
 'use strict';
 // const kafka = require('kafka-node');
-const httpStatusCodes = require('http-status-codes'),
+const HttpStatus = require('http-status-codes'),
   errorBuilder = require('../helpers/error-builder'),
   logger = require('../helpers/logger');
 
@@ -21,7 +21,7 @@ module.exports.send = ({topic, message, requestId}) => {
       if (error) {
         logger.error({requestId, topic}, "Failed to push message to kafka: %j", error);
 
-        const returnError = errorBuilder.build("KAFKA_ERROR", httpStatusCodes.INTERNAL_SERVER_ERROR, error.message);
+        const returnError = errorBuilder.build("KAFKA_ERROR", HttpStatus.INTERNAL_SERVER_ERROR, error.message);
         return reject(returnError);
       }
 

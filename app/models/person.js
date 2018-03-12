@@ -1,19 +1,19 @@
 'use strict';
 
 const util = require('util'),
-  httpStatusCodes = require('http-status-codes'),
+  HttpStatus = require('http-status-codes'),
   personsConnector = require('../connectors/persons-connector'),
   logger = require('../helpers/logger'),
   errorBuilder = require('../helpers/error-builder');
 
 const ERROR_MAPPING = {
-  [httpStatusCodes.NOT_FOUND]: {
-    code: httpStatusCodes.NOT_FOUND,
+  [HttpStatus.NOT_FOUND]: {
+    code: HttpStatus.NOT_FOUND,
     message: "person not found"
   }
 };
 const defaultError = {
-  code: httpStatusCodes.INTERNAL_SERVER_ERROR,
+  code: HttpStatus.INTERNAL_SERVER_ERROR,
   message: "Unexpected error"
 };
 
@@ -38,7 +38,7 @@ module.exports.deletePerson = (personId, requestId) => {
 const extractPerson = (personId, requestId) => {
   const data = {
     method: "GET",
-    serviceUrl: util.format("persons/%s", personId),
+    serviceUrl: util.format("v1/persons/%s", personId),
     headers: basicHeaders(requestId)
   };
 
@@ -54,7 +54,7 @@ const extractPerson = (personId, requestId) => {
 const deletePerson = (personId, requestId) => {
   const data = {
     method: "DELETE",
-    serviceUrl: util.format("persons/%s", personId),
+    serviceUrl: util.format("v2/persons/%s", personId),
     headers: basicHeaders(requestId)
   };
 
