@@ -1,8 +1,7 @@
 'use strict';
 const request = require('request-promise'),
   _ = require('lodash'),
-  logger = require('../helpers/logger'),
-  config = require('../config/service-config');
+  logger = require('../helpers/logger');
 
 module.exports.execute = ({method, url, body, headers, queryString, timeout, requestId}) => {
   return request[_.toLower(method)]({
