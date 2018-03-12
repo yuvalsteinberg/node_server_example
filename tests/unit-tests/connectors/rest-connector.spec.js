@@ -23,7 +23,7 @@ describe("rest-connector", () => {
             name: "full data with extra parameters",
             data: {
               method: "POST",
-              serviceUrl: uuid.v4(),
+              url: uuid.v4(),
               headers: uuid.v4(),
               body: {
                 something: uuid.v4(),
@@ -46,7 +46,7 @@ describe("rest-connector", () => {
             name: "partial data with extra parameters",
             data: {
               method: "POST",
-              serviceUrl: uuid.v4(),
+              url: uuid.v4(),
               headers: uuid.v4(),
               body: {
                 something: uuid.v4(),
@@ -63,13 +63,13 @@ describe("rest-connector", () => {
             name: "minimal data",
             data: {
               method: "POST",
-              serviceUrl: uuid.v4(),
+              url: uuid.v4(),
             }
           },
         ].forEach((test) => {
           it(util.format("should send request as expected with all %s", test.name), () => {
             const expetedRequestValues = {
-              uri: test.data.serviceUrl,
+              uri: test.data.url,
               body: test.data.body,
               headers: test.data.headers,
               qs: test.data.queryString,
@@ -113,12 +113,12 @@ describe("rest-connector", () => {
           it(test.method.toUpperCase(), () => {
             const data = {
               method: test.inputMethod,
-              serviceUrl: uuid.v4(),
+              url: uuid.v4(),
               timeout: uuid.v4()
             };
 
             const expetedRequestValues = {
-              uri: data.serviceUrl,
+              uri: data.url,
               body: undefined,
               headers: undefined,
               qs: undefined,
@@ -150,7 +150,7 @@ describe("rest-connector", () => {
         const requestId = uuid.v4();
         const data = {
           method: "GET",
-          serviceUrl: uuid.v4(),
+          url: uuid.v4(),
           requestId: requestId
         };
 
@@ -177,7 +177,7 @@ describe("rest-connector", () => {
           requestStub.callCount.should.equal(1);
 
           loggerErrorStub.callCount.should.equal(1);
-          loggerErrorStub.getCall(0).args.should.deepEqual([expetedLoggedData, "Failed with request to %s", data.serviceUrl])
+          loggerErrorStub.getCall(0).args.should.deepEqual([expetedLoggedData, "Failed with request to %s", data.url])
         });
       });
     });
