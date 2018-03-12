@@ -21,96 +21,97 @@ describe("persons-connector", () => {
     sandbox.restore();
   });
 
-  describe("successful", () => {
-    describe("various data inputs", () => {
-      [
-        {
-          name: "full data with extra parameters",
-          data: {
-            method: "POST",
-            url: uuid.v4(),
-            path: uuid.v4(),
-            headers: uuid.v4(),
-            body: {
-              something: uuid.v4(),
-              value: uuid.v4(),
-              inner: {
-                test: 123,
-                test2: uuid.v4()
-              }
-            },
-            queryString: {
-              testValue: uuid.v4(),
-              testNumber: 5,
-            },
-            requestId: uuid.v4(),
-            somethingElse: uuid.v4(),
-            timeout: uuid.v4(),
-            serviceRequestTimeout: uuid.v4(),
-          }
-        },
-        {
-          name: "partial data with extra parameters",
-          data: {
-            method: "POST",
-            path: uuid.v4(),
-            headers: uuid.v4(),
-            body: {
-              something: uuid.v4(),
-              value: uuid.v4(),
-            },
-            requestId: uuid.v4(),
-            somethingNested: {
-              test: uuid.v4()
-            },
-          }
-        },
-        {
-          name: "minimal data",
-          data: {
-            method: "POST",
-            path: uuid.v4(),
-          }
-        },
-      ].forEach((test) => {
-        it(util.format("should send request as expected with all %s", test.name), () => {
-          const expectedRequestValues = {
-            method: test.data.method,
-            url: personsServiceUrl+"/"+test.data.path,
-            body: test.data.body,
-            headers: test.data.headers,
-            queryString: test.data.queryString,
-            requestId: test.data.requestId,
-            timeout: requestTimeout
-          };
-
-          const expectedResult = {
-            demo: true,
-            value: 100,
-            nested: {
-              test: uuid.v4(),
+  describe("execute", () => {
+    describe("successful", () => {
+      describe("various data inputs", () => {
+        [
+          {
+            name: "full data with extra parameters",
+            data: {
+              method: "POST",
+              url: uuid.v4(),
+              path: uuid.v4(),
+              headers: uuid.v4(),
+              body: {
+                something: uuid.v4(),
+                value: uuid.v4(),
+                inner: {
+                  test: 123,
+                  test2: uuid.v4()
+                }
+              },
+              queryString: {
+                testValue: uuid.v4(),
+                testNumber: 5,
+              },
+              requestId: uuid.v4(),
+              somethingElse: uuid.v4(),
+              timeout: uuid.v4(),
+              serviceRequestTimeout: uuid.v4(),
             }
-          };
+          },
+          {
+            name: "partial data with extra parameters",
+            data: {
+              method: "POST",
+              path: uuid.v4(),
+              headers: uuid.v4(),
+              body: {
+                something: uuid.v4(),
+                value: uuid.v4(),
+              },
+              requestId: uuid.v4(),
+              somethingNested: {
+                test: uuid.v4()
+              },
+            }
+          },
+          {
+            name: "minimal data",
+            data: {
+              method: "POST",
+              path: uuid.v4(),
+            }
+          },
+        ].forEach((test) => {
+          it(util.format("should send request as expected with all %s", test.name), () => {
+            const expectedRequestValues = {
+              method: test.data.method,
+              url: personsServiceUrl+"/"+test.data.path,
+              body: test.data.body,
+              headers: test.data.headers,
+              queryString: test.data.queryString,
+              requestId: test.data.requestId,
+              timeout: requestTimeout
+            };
 
-          const restConnectorStub = sandbox.stub(restConnector, 'execute').resolves(expectedResult);
-          const loggerErrorStub = sandbox.stub(logger, "error");
+            const expectedResult = {
+              demo: true,
+              value: 100,
+              nested: {
+                test: uuid.v4(),
+              }
+            };
 
-          return personsConnector.execute(test.data).should.be.fulfilled()
-          .then((result) => {
-            result.should.deepEqual(expectedResult);
+            const restConnectorStub = sandbox.stub(restConnector, 'execute').resolves(expectedResult);
+            const loggerErrorStub = sandbox.stub(logger, "error");
 
-            restConnectorStub.callCount.should.equal(1);
-            restConnectorStub.getCall(0).args.should.deepEqual([expectedRequestValues]);
+            return personsConnector.execute(test.data).should.be.fulfilled()
+            .then((result) => {
+              result.should.deepEqual(expectedResult);
 
-            loggerErrorStub.callCount.should.equal(0);
+              restConnectorStub.callCount.should.equal(1);
+              restConnectorStub.getCall(0).args.should.deepEqual([expectedRequestValues]);
+
+              loggerErrorStub.callCount.should.equal(0);
+            });
           });
         });
+
       });
-
     });
-  });
 
-  describe("failures", () => {
+    describe("failures", () => {
       it("failure response should reject", () => {
         const data = {
           method: "GET",
@@ -137,5 +138,6 @@ describe("persons-connector", () => {
           loggerErrorStub.callCount.should.equal(0);
         });
       });
+    });
   });
 });

@@ -6,8 +6,14 @@ const httpStatusCodes = require('http-status-codes'),
   kafkaProducer = require('../connectors/kafka-producer');
 
 module.exports.notifyDeletion = (personId, requestId) => {
-  const message = {personId, requestId};
-  return kafkaProducer.send(config.kafkaDeleteNotificationTopic, message)
+  const data = {
+    topic: config.kafkaDeleteNotificationTopic,
+    message: {
+      personId,
+      requestId
+    }
+  };
+  return kafkaProducer.send(data)
   .then(() => {})
   .catch((error) => {
     logger.error("Failed to send notification: %j", error);
